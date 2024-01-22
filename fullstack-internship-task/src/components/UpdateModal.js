@@ -16,7 +16,6 @@ const UpdateModal = ({ item, onClose, onUpdate }) => {
     e.preventDefault();
 
     try {
-      // Make a PUT request to your server for updating
       const response = await fetch(
         `http://localhost:3001/api/items/${item._id}`,
         {
@@ -30,7 +29,7 @@ const UpdateModal = ({ item, onClose, onUpdate }) => {
 
       if (response.ok) {
         console.log(`Item with ID ${item._id} updated successfully`);
-        // Call the onUpdate prop with the updated item
+
         onUpdate({ ...item, ...updatedData });
         onClose();
       } else {

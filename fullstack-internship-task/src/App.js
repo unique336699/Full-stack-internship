@@ -7,7 +7,6 @@ const App = () => {
   const [items, setItems] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
 
-  // Fetch items from the backend
   const fetchItems = async () => {
     try {
       const response = await fetch("http://localhost:3001/api/items");
@@ -20,9 +19,8 @@ const App = () => {
 
   useEffect(() => {
     fetchItems();
-  }, []); // Empty dependency array ensures the effect runs only once on mount
+  }, []);
 
-  // Handle form submission
   const handleFormSubmit = async (formData) => {
     try {
       const response = await fetch("http://localhost:3001/api/items", {
@@ -35,8 +33,8 @@ const App = () => {
 
       if (response.ok) {
         const newItem = await response.json();
-        setItems([...items, newItem]); // Update the table with the new item
-        setShowPopup(false); // Close the popup after submission
+        setItems([...items, newItem]);
+        setShowPopup(false);
       } else {
         console.error("Failed to add new item");
       }
@@ -45,18 +43,29 @@ const App = () => {
     }
   };
 
-  // Auto-refresh functionality
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      fetchItems(); // Fetch data at regular intervals
-    }, 5000); // Fetch data every 5 seconds (adjust as needed)
+  const handleSendEmail = async (selectedRows) => {
+    try {
+      const response = await fetch("http://localhost:3001/api/send-email", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ selectedRows }),
+      });
 
-    return () => clearInterval(intervalId); // Clear the interval on component unmount
-  }, [items]); // Trigger the effect whenever items change
+      if (response.ok) {
+        console.log("Email sent successfully");
+      } else {
+        console.error("Failed to send email");
+      }
+    } catch (error) {
+      console.error("Error sending email:", error);
+    }
+  };
 
   return (
     <div>
-      <Table items={items} onUpdate={setItems} />
+      <Table items={items} onUpdate={setItems} onSendEmail={handleSendEmail} />
       <button onClick={() => setShowPopup(true)}>Add New</button>
       {showPopup && (
         <Popup
@@ -64,7 +73,6 @@ const App = () => {
           onSubmit={(formData) => handleFormSubmit(formData)}
         />
       )}
-      {/* Use the Form component for adding new entries */}
       <Form onSubmit={(formData) => handleFormSubmit(formData)} />
     </div>
   );

@@ -67,4 +67,32 @@ router.delete("/items/:id", async (req, res) => {
   }
 });
 
+router.post("/send-email", async (req, res) => {
+  try {
+    const selectedRows = req.body.selectedRows;
+
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "your-email@gmail.com",
+        pass: "your-email-password",
+      },
+    });
+
+    const mailOptions = {
+      from: "your-email@gmail.com",
+      to: "info@redpositive.in",
+      subject: "Selected Rows' Data",
+      text: JSON.stringify(selectedRows),
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.status(200).json({ message: "Email sent successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 module.exports = router;

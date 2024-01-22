@@ -1,4 +1,3 @@
-// components/Form.js
 import React, { useState } from "react";
 
 const Form = ({ onSubmit }) => {
@@ -15,10 +14,8 @@ const Form = ({ onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Basic validation
     if (formData.name && formData.email) {
       onSubmit(formData);
-      // Optionally, you can reset the form after submission
       setFormData({
         name: "",
         phoneNumber: "",

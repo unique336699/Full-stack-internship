@@ -1,4 +1,3 @@
-// components/Popup.js
 import React, { useState } from "react";
 
 const Popup = ({ onClose, onSubmit }) => {
@@ -15,7 +14,6 @@ const Popup = ({ onClose, onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Basic validation
     if (formData.name && formData.email) {
       onSubmit(formData);
       onClose();
