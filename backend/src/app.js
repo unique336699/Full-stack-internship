@@ -14,7 +14,7 @@ main()
 
 async function main() {
   await mongoose.connect(
-    "mongodb+srv://kingofworld95463:kingofworld95463@cluster0.4lpy9ir.mongodb.net/?retryWrites=true&w=majority",
+    "mongodb+srv://kingofworld95463:AnK1q4kkFw9PJV97@cluster0.4lpy9ir.mongodb.net/?retryWrites=true&w=majority",
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
